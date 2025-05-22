@@ -1,6 +1,7 @@
 # from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .views import DepositResultAPIView
 
 urlpatterns = [
     path('save-deposit-products/', views.save_deposit_products, name='savedb'),
@@ -11,4 +12,5 @@ urlpatterns = [
     # path('deposit-product-options/<str:fin_prdt_cd>/', views.deposit_product_options, name='depositopt'),
     # path('datas/', include('datas.urls')),
     # path('admin/', admin.site.urls),
+    path('api/deposit_results/', DepositResultAPIView.as_view()),
 ]

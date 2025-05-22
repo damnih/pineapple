@@ -4,13 +4,8 @@ from django.conf import settings
 from .models import DepositProducts, DepositOptions
 from .serializers import DepositProductsSerializer, DepositOptionsSerializer
 # from django.contrib.auth.decorators import 
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import DepositOptions
-from .serializers import DepositResultSerializer
 from rest_framework.decorators import api_view
-
+from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
 
@@ -123,6 +118,57 @@ def deposit_products(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# 이거불가능
+# /finlife/deposit-product-options/<str:fin_prdt_cd>
+# @api_view(['GET'])
+# def deposit_product_options(request):
+#     if request.method == 'GET':
+#         products = DepositProducts.objects.all()
+#         DepositOptions.objects.get(fin_prdt_cd=products['fin_prdt_cd'])
+
+
+# 이거가능
+# path('deposit-product-options/<str:fin_prdt_cd>/', views.deposit_product_options, name='depositopt'),
+# datas/deposit-product-options/<str:fin_prdt_cd>/
+# @api_view(['GET'])
+# def deposit_product_options(request, fin_prdt_cd):
+#     try:
+#         product = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+#     except DepositProducts.DoesNotExist:
+#         return Response({'error': '상품이 존재하지 않습니다'}, status=status.HTTP_404_NOT_FOUND)
+    
+#     options = product.options.all()  # related_name 사용
+#     serializer = DepositOptionsSerializer(options, many=True)
+#     return Response(serializer.data)
+
+
+
+# 이거불가능
+# finlife/deposit-products/top-rate/
+# @api_view(['GET'])
+# def top_rate(request):
+    # 금리가 가장 높은 옵션을 찾기 
+    # 그 옵션의 외래키로 설정되어있는 금융 상품 찾기 
+
+
+
+# 이거가능
+# @api_view(['GET'])
+# def top_rate(request):
+#     top_option = DepositOptions.objects.order_by('-intr_rate2').first()
+
+#     if not top_option:
+#         return Response({'message': '옵션 데이터가 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+
+#     product = top_option.product
+#     product_serializer = DepositProductsSerializer(product)
+#     option_serializer = DepositOptionsSerializer(DepositOptions.objects.filter(product=product), many=True)
+
+#     return Response({
+#         'product': product_serializer.data,
+#         'options': option_serializer.data
+#     })
+
 
 def input_my_data(request):
     # context = {
@@ -159,40 +205,3 @@ def filter_by_mine(request):
     # return render(request, 'datas/filter.html', context )
     return render(request, 'datas/main.html', context )
     
-
-
-
-# 믿기./
-
-
-class DepositResultAPIView(APIView):
-    def get(self, request):
-        n    = int(request.query_params.get('schedule_ans', 0))
-        dest = request.query_params.get('destination_ans')
-        principal = float(request.query_params.get('budget_ans', 0))
-
-        qs = DepositOptions.objects.filter(save_trm__lte=n) \
-                .select_related('product')
-
-        if dest:
-            qs = qs.filter(product__destination__iexact=dest)
-
-        # 우대금리(intr_rate2) 내림차순 정렬 후 상위 4개
-        top4 = qs.order_by('-intr_rate2')[:4]
-
-        # 계산 로직 포함해서 직렬화
-        data = []
-        for opt in top4:
-            rate = opt.intr_rate2
-            # 단리 vs 복리 분기
-            if opt.intr_rate_type_nm == '단리':
-                maturity = principal * (1 + rate * (n/12))
-            else:
-                maturity = principal * (1 + rate) ** (n/12)
-
-            data.append({
-                **DepositResultSerializer(opt).data,
-                'maturity_amount': round(maturity, 0),
-            })
-
-        return Response(data)
