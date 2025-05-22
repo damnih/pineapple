@@ -1,85 +1,63 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div>
+    <!-- 네비게이션 상단 줄 -->
+    <nav class="main-navbar">
+      <RouterLink class="nav-link" :to="{ name: 'home' }">HOME</RouterLink>
+      <RouterLink class="nav-link" :to="{ name: 'signup' }">SIGNUP</RouterLink>
+      <RouterLink class="nav-link" :to="{ name: 'login' }">LOGIN</RouterLink>
+    </nav>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <!-- 장식용 하단 줄 -->
+    <div class="decorative-bar">
+      <div class="bar black"></div>
+      <div class="bar blue"></div>
+      <div class="bar black"></div>
+      <div class="bar blue flex-grow"></div>
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
 
+<script setup>
+import { RouterView, RouterLink } from 'vue-router'
+
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.main-navbar {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: white;
+  padding: 16px;
+  gap: 40px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.nav-link {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.decorative-bar {
+  display: flex;
+  height: 50px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.bar {
+  width: 160px;
+  height: 100%;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.black {
+  background-color: black;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.blue {
+  background-color: #3399ff;
 }
 
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.flex-grow {
+  flex-grow: 1;
 }
 </style>
