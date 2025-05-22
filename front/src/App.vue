@@ -15,6 +15,8 @@
       <div class="bar blue flex-grow"></div>
     </div>
   </div>
+
+  <RouterView />
 </template>
 
 <script setup>
