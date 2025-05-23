@@ -3,6 +3,8 @@ from django.urls import path, include
 from . import views
 from .views import DepositResultAPIView
 
+
+app_name = 'datas'
 urlpatterns = [
     path('save-deposit-products/', views.save_deposit_products, name='savedb'),
     path('deposit-products/', views.deposit_products, name='deposit'),

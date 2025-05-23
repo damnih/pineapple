@@ -6,7 +6,7 @@ from .models import Article, Comment
 class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('id', 'title', 'content',)
+        fields = ('id', 'title', 'content', 'author', 'created_at',)
 
 
 # 게시글의 전체 필드를 직렬화 하는 클래스
@@ -15,7 +15,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     class CommentDetailSerializer(serializers.ModelSerializer):
         class Meta:
             model = Comment
-            fields = ('id', 'content',)
+            fields = ('id', 'title', 'content', 'author', 'created_at',)
 
 
     # 기존에 있던 역참조 매니저인 comment_set의 값을 덮어쓰기
