@@ -4,4 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
-    pass 
+    name = models.TextField()
+    age = models.IntegerField()
+    nationality = models.TextField()
+    id = models.TextField()
+    password = models.TextField
+
