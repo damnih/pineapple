@@ -70,9 +70,8 @@ const fetchExchangeRate = async () => {
   // const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/100/731Y001/D/${formattedDate}/${formattedDate}/${selectedCode.value}`
 
   try {
-    const res = await axios.get(`http://localhost:8000/api/exchange-rate/${selectedCode.value}`)
-    rate.value = res.data.rate
-    const row = res.data?.StatisticSearch?.row?.[0]
+    const res = await axios.get(`http://localhost:8000/datas/exchange-rate/${selectedCode.value}`)
+    
     if (res.data && res.data.rate) {
       rate.value = res.data.rate
     } else {

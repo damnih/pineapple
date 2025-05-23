@@ -48,6 +48,7 @@
   const pw = ref('')
   const pw2 = ref('')
   const age = ref('')
+  const name = ref('')
   const nationality = ref('')
 
   const onSignUp = function () {
@@ -56,6 +57,7 @@
       pw: pw.value,
       pw2: pw2.value,
       age: age.value,
+      name: name.value,
       nationality: nationality.value
     }
     accountStore.signUp(userInfo)
