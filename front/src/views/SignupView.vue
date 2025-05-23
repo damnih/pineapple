@@ -53,6 +53,7 @@
 
   const onSignUp = function () {
     const userInfo = {
+
       username: username.value,  // "id" → "username"으로 변경
       password: password.value,
       password2: password2.value,

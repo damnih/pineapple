@@ -2,6 +2,7 @@
 from django.urls import path, include
 from . import views
 from .views import DepositResultAPIView
+from .views import exchange_rate
 
 
 app_name = 'datas'
@@ -15,4 +16,5 @@ urlpatterns = [
     # path('datas/', include('datas.urls')),
     # path('admin/', admin.site.urls),
     path('api/deposit_results/', DepositResultAPIView.as_view()),
+    path('exchange-rate/<str:code>/', exchange_rate),
 ]
