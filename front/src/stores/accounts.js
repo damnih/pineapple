@@ -7,13 +7,18 @@ export const useAccountStore = defineStore('account', () => {
   const ACCOUNT_API_URL = 'http://127.0.0.1:8000/accounts'
   const token = ref('')
 
-    const signUp = function ({id, pw, pw2, age, name, nationality}) {
+    const signUp = function ({username, password, password2, age, name, nationality}) {
     axios({
       method: 'POST',
       url: `${ACCOUNT_API_URL}/signup/`,
       data: {
-        id, pw, pw2, age, name, nationality
-      }
+            username: username,
+            password: password,
+            password2: password2,
+            age: age,
+            name: name,
+            nationality: nationality
+          }
     })
       .then(res => {
         console.log('회원가입 성공!')

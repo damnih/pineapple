@@ -6,8 +6,55 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import CustomUserCreationSerializer
+
 
 # Create your views here.
+
+
+
+class SignupView(APIView):
+    def post(self, request):
+        serializer = CustomUserCreationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {"message": "회원가입 성공"}, 
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            {"errors": serializer.errors}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+
+
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save() # 폼 저장하구 
+            return redirect('articles:index')
+        
+    else:
+        # 회원가입 템플릿과 회원정보 작성을 위한 폼을 올림 
+        # 그렇다면 폼 인스턴스가 필요~! 
+        # form = 유저인포 
+        # 아 그렇다면 이거 임포트가 필요하겠다 임포트하러 맨위로 가자! 
+        form = CustomUserCreationForm()
+    context = {
+        "form": form,
+    }
+    return render(request, 'accounts/signup.html', context)
+
+
+
 def login(request):
     if request.user.is_authenticated:
         return redirect('articles:index')
