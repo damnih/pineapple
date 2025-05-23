@@ -6,6 +6,7 @@ import YoutubeView from '@/views/YoutubeView.vue'
 import ArticleView from '@/views/ArticleView.vue'
 import SignupView from '@/views/SignupView.vue'
 import LoginView from '@/views/LoginView.vue'
+import ArticleDetailView from '@/views/ArticleDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/article',
       name: 'article',
       component: ArticleView,
+    },
+    {
+      path: '/article/:id',
+      name: 'detail',
+      component: ArticleDetailView,
     },
     {
       path: '/signup',
