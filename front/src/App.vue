@@ -5,6 +5,12 @@
       <RouterLink class="nav-link" :to="{ name: 'home' }">HOME</RouterLink>
       <RouterLink class="nav-link" :to="{ name: 'signup' }">SIGNUP</RouterLink>
       <RouterLink class="nav-link" :to="{ name: 'login' }">LOGIN</RouterLink>
+
+      <!-- 여행지 정보 유튜브 검색 -->
+      <form class="d-flex ms-auto" role="search">
+      <input v-model="searchQuery" class="form-control me-2" type="search" style="width: 250px;" placeholder="여행지 정보가 궁금하다면" aria-label="Search"/>
+      <button @click="searchVideos" class="btn btn-primary" type="submit" style="white-space: nowrap;">검색</button>
+      </form>
     </nav>
 
     <!-- 장식용 하단 줄 -->
@@ -20,7 +26,21 @@
 </template>
 
 <script setup>
-import { RouterView, RouterLink } from 'vue-router'
+import { ref } from 'vue'
+import { RouterView, RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const searchQuery = ref('')
+const searchResults = ref([])
+
+const searchVideos = async (event) => {
+  event.preventDefault() // 폼 제출 방지
+
+  if (!searchQuery.value) return
+
+  router.push({ name: 'youtube', query: { q: searchQuery.value } })
+}
 
 </script>
 
