@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
+from rest_framework.views import APIView
+
 from django.db.models import Count
 
 from .models import Article, Comment
@@ -9,6 +11,23 @@ from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerial
 
 
 # Create your views here.
+
+
+# vue와 연결해줄거임 
+class ArticleCreateView(APIView):
+    def post(self, request):
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':

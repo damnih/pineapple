@@ -4,6 +4,8 @@ from . import views
 from .views import DepositResultAPIView
 from .views import exchange_rate
 
+
+app_name = 'datas'
 urlpatterns = [
     path('save-deposit-products/', views.save_deposit_products, name='savedb'),
     path('deposit-products/', views.deposit_products, name='deposit'),
