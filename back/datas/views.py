@@ -169,28 +169,25 @@ def filter_by_mine(request):
 
 class DepositResultAPIView(APIView):
     def get(self, request):
-        n    = int(request.query_params.get('schedule_ans', 0))
+        schedule = int(request.query_params.get('schedule_ans', 0))
         dest = request.query_params.get('destination_ans')
-        principal = float(request.query_params.get('budget_ans', 0))
+        budget = float(request.query_params.get('budget_ans', 0))
 
-        qs = DepositOptions.objects.filter(save_trm__lte=n) \
+        qs = DepositOptions.objects.filter(save_trm__lte=schedule) \
                 .select_related('product')
 
-        if dest:
-            qs = qs.filter(product__destination__iexact=dest)
+        # if dest:
+        #     qs = qs.filter(product__destination__iexact=dest)
 
-        # 우대금리(intr_rate2) 내림차순 정렬 후 상위 4개
         top4 = qs.order_by('-intr_rate2')[:4]
 
-        # 계산 로직 포함해서 직렬화
         data = []
         for opt in top4:
             rate = opt.intr_rate2
-            # 단리 vs 복리 분기
             if opt.intr_rate_type_nm == '단리':
-                maturity = principal * (1 + rate * (n/12))
+                maturity = budget * (1 + rate * (schedule / 12))
             else:
-                maturity = principal * (1 + rate) ** (n/12)
+                maturity = budget * (1 + rate) ** (schedule / 12)
 
             data.append({
                 **DepositResultSerializer(opt).data,
@@ -198,6 +195,7 @@ class DepositResultAPIView(APIView):
             })
 
         return Response(data)
+
 
 # 한국은행 api 접속 위한 함수
 def exchange_rate(request, code):
