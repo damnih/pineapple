@@ -11,7 +11,7 @@
     <!-- 이미지들 -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <RouterLink :to="{ name: 'deposit' }">
+      <RouterLink :to="{ name: 'recommend' }">
         <img src="../../the-moon-2117086_1920.jpg" class="d-block w-50 mx-auto" alt="airplane">
       </RouterLink>
       <div class="carousel-caption d-none d-md-block text-center">

@@ -8,6 +8,7 @@ import SignupView from '@/views/SignupView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MapView from '@/views/MapView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import RecommendView from '@/views/RecommendView.vue'
 
 
 const router = createRouter({
@@ -57,6 +58,11 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       component: MapView,
+    },
+    {
+      path: '/recommend',
+      name: 'recommend',
+      component: RecommendView,
     },
   ],
 })
