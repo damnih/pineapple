@@ -16,7 +16,7 @@ from django.http import JsonResponse
 
 from .forms import MyDataForm
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -199,14 +199,28 @@ class DepositResultAPIView(APIView):
 
 # 한국은행 api 접속 위한 함수
 def exchange_rate(request, code):
-    today = datetime.now().strftime('%Y%m%d')
+    today = datetime.now()
+    week_ago = today - timedelta(days=6)
+
+    today_str = today.strftime('%Y%m%d')
+    week_ago_str = week_ago.strftime('%Y%m%d')
+    
     API_KEY = settings.BOK_API_KEY
-    url = f'https://ecos.bok.or.kr/api/StatisticSearch/{API_KEY}/json/kr/1/100/731Y001/D/{today}/{today}/{code}'
+    url = f'https://ecos.bok.or.kr/api/StatisticSearch/{API_KEY}/json/kr/1/100/731Y001/D/{week_ago_str}/{today_str}/{code}'
 
     try:
         response = requests.get(url)
         data = response.json()
-        value = data['StatisticSearch']['row'][0]['DATA_VALUE']
-        return JsonResponse({'rate': value})
+        rows = data.get('StatisticSearch', {}).get('row', [])
+
+        # 주말 등 값이 없는 날짜는 자동 필터링
+        cleaned_data = [
+            {'date': r['TIME'], 'rate': r['DATA_VALUE']}
+            for r in rows
+            if 'DATA_VALUE' in r
+        ]
+
+        return JsonResponse({'rates': cleaned_data})
+
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

@@ -1,16 +1,16 @@
 <template>
-    <div class="d-flex justify-content-center vh-100 bg-white">
-      <div class="border p-5 my-5" :style="{ width: width }">
-        <slot></slot>
+  <div class="d-flex justify-content-center bg-white py-5">
+    <div class="border p-5 w-100" :style="{ maxWidth: width, minHeight: '500px' }">
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script setup>
-  defineProps({
+defineProps({
   width: {
     type: String,
-    default: '800px'
+    default: '900px'
   }
 })
 </script>
