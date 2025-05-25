@@ -24,7 +24,7 @@ const searchQuery = ref('')
 const searchResults = ref([])
 
 const searchVideos = async () => {
-  const API_KEY = 'AIzaSyBf99e9WBUPAtjBWQcwANgfFWbyY-xW0Yc'
+  const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
   const query = searchQuery.value
   if (!query) return
 

@@ -28,6 +28,7 @@ environ.Env.read_env(
 
 # 환경변수 읽어오기 
 API_KEY = env('API_KEY')
+BOK_API_KEY = env('BOK_API_KEY')
 
 
 
