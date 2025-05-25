@@ -200,7 +200,7 @@ class DepositResultAPIView(APIView):
 # 한국은행 api 접속 위한 함수
 def exchange_rate(request, code):
     today = datetime.now().strftime('%Y%m%d')
-    API_KEY = 'YHDHWWD18JE3MNFIN3JB'
+    API_KEY = settings.BOK_API_KEY
     url = f'https://ecos.bok.or.kr/api/StatisticSearch/{API_KEY}/json/kr/1/100/731Y001/D/{today}/{today}/{code}'
 
     try:
