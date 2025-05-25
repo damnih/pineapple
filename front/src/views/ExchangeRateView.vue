@@ -1,46 +1,46 @@
 <template>
-  <Box>
+  <ArticleBox>
     <div class="container">
-      <h2>환율 조회</h2>
-      <p>※ 주말에는 조회가 불가합니다.</p>
-      <hr>
-
-      <form>
-        <select id="currency" v-model="selectedCurrency">
+      <h2>💸 환율 조회</h2>
+      <p>※ 주말에는 환율이 제공되지 않습니다.</p>
+      <form @submit.prevent="fetchExchangeRate">
+        <select v-model="selectedCurrency">
           <option disabled value="">통화를 선택하세요</option>
           <option v-for="(code, name) in currencyMap" :key="name" :value="name">
             {{ name }}
           </option>
         </select>
-        <button @click.prevent="fetchExchangeRate" class="btn btn-primary ms-3">조회</button>
+        <button class="btn btn-primary ms-3">조회</button>
       </form>
 
-      <div v-if="rate !== null" class="mt-3">
-        <p>{{ now_selectedCurrency }} → KRW 환율: {{ rate }}</p>
-        <table class="table">
-          <thead>
-            <tr><th>통화</th><th>환율(KRW)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>{{ now_selectedCurrency }}</td><td>{{ rate }}</td></tr>
-          </tbody>
-        </table>
+      <div v-if="chartData.labels.length > 0" class="mt-4">
+        <Line :data="chartData" :options="chartOptions" />
       </div>
     </div>
-  </Box>
+  </ArticleBox>
 </template>
 
 <script setup>
-import Box from '@/components/Box.vue'
 import { ref } from 'vue'
 import axios from 'axios'
+import ArticleBox from '@/components/ArticleBox.vue'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
 
-// 통화 선택 및 환율 저장용 상태
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement)
+
 const selectedCurrency = ref('')
-const rate = ref(null)
 const now_selectedCurrency = ref('')
 
-// 통화 코드 맵
 const currencyMap = {
   USD: '0000001',
   EUR: '0000003',
@@ -53,26 +53,48 @@ const currencyMap = {
   AUD: '0000017'
 }
 
-// API 키
-const API_KEY = 'YHDHWWD18JE3MNFIN3JB'
+// 차트용 데이터
+const chartData = ref({
+  labels: [],
+  datasets: []
+})
 
-// API 호출 함수
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: { position: 'top' },
+    title: { display: true, text: '일주일간 환율 변화' }
+  }
+}
+
 const fetchExchangeRate = async () => {
   const selectedCode = currencyMap[selectedCurrency.value]
   now_selectedCurrency.value = selectedCurrency.value
 
   try {
     const res = await axios.get(`http://localhost:8000/datas/exchange-rate/${selectedCode}`)
-    
-    if (res.data && res.data.rate) {
-      rate.value = res.data.rate
+
+    if (res.data && res.data.rates) {
+      const labels = res.data.rates.map(item => item.date)
+      const values = res.data.rates.map(item => parseFloat(item.rate))
+
+      chartData.value = {
+        labels,
+        datasets: [
+          {
+            label: `${selectedCurrency.value} → KRW`,
+            data: values,
+            fill: false,
+            borderColor: 'blue',
+            tension: 0.3
+          }
+        ]
+      }
     } else {
       console.error('환율 데이터를 찾을 수 없습니다.')
-      rate.value = '조회 실패'
     }
   } catch (err) {
     console.error('API 요청 실패:', err)
-    rate.value = '요청 오류'
   }
 }
 </script>

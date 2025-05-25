@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="width: 30rem;">
+  <div class="card" style="width: 20rem;">
     <a :href="'https://www.youtube.com/watch?v=' + videoId" target="_blank">
       <img
         :src="'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg'"
