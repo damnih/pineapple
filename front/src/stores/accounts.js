@@ -35,6 +35,19 @@ export const useAccountStore = defineStore('account', () => {
   }
 
 
+ // 2) 현재 토큰으로 내 정보 가져오기
+  const fetchUser = async () => {
+    console.log('🟢 fetchUser called, token=', token.value)
+    if (!token.value) return
+    try {
+      const { data } = await axios.get(`${ACCOUNT_API_URL}/me/`)
+      console.log('🟢 profile data:', data)
+      user.value = data
+    } catch (err) {
+      console.error('유저 프로필 조회 실패', err)
+    }
+  }
+
   const logIn = async ({ id, pw }) => {
     try {
       const res = await axios.post(
@@ -61,18 +74,6 @@ export const useAccountStore = defineStore('account', () => {
     }
   }
 
- // 2) 현재 토큰으로 내 정보 가져오기
-  const fetchUser = async () => {
-    if (!token.value) return
-    try {
-      const { data } = await axios.get(`${ACCOUNT_API_URL}/me/`)
-      user.value = data
-    } catch (err) {
-      console.error('유저 프로필 조회 실패', err)
-    }
-  }
-
-
   // 3) 로그아웃
   const logOut = () => {
     token.value = ''
@@ -81,32 +82,6 @@ export const useAccountStore = defineStore('account', () => {
     router.push({ name: 'home' })
   }
 
-  
-  // const logIn = function({id, pw}) {
-  //   axios({
-  //     method: 'POST',
-  //     url: `${ACCOUNT_API_URL}/login/`,
-  //     data: {
-  //       id, pw
-  //     }
-  //   })
-  //     .then(res => {
-  //       token.value = res.data.key
-  //     })
-      
-  //     .catch(err => {
-  //       console.error(err)          // ← 어떤 에러가 왔는지 먼저 찍어 보고  
-  //       // Optional chaining 으로 안전하게 꺼내기
-  //       const msg = err.response?.data?.errors
-  //           || '로그인 중 알 수 없는 오류가 발생했습니다.'
-  //       alert(msg)
-  //     })
-  //     // .catch(err => {
-  //     //   // console.log(err.response.data)          // ← 이 한 줄로, 서버가 보낸 에러 메시지를 찍을 수 있습니다.
-  //     //   alert(err.response.data.errors)         // ← 사용자에게도 보여주고 싶다면
-  //     // })
-  // }
 
-
-  return { ACCOUNT_API_URL, token, signUp, logIn, logOut }
+  return { ACCOUNT_API_URL, token, signUp, logIn, logOut, fetchUser, user }
 })
