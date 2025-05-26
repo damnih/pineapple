@@ -37,11 +37,9 @@ export const useAccountStore = defineStore('account', () => {
 
  // 2) 현재 토큰으로 내 정보 가져오기
   const fetchUser = async () => {
-    console.log('🟢 fetchUser called, token=', token.value)
     if (!token.value) return
     try {
       const { data } = await axios.get(`${ACCOUNT_API_URL}/me/`)
-      console.log('🟢 profile data:', data)
       user.value = data
     } catch (err) {
       console.error('유저 프로필 조회 실패', err)

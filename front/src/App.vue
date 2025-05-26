@@ -39,7 +39,7 @@
     <nav v-if="isLoggedIn"> 
 
     <!-- 디버그: 토큰과 user 객체를 찍어 봅니다 -->
-      {{ userName }} 님 안녕하세요! 
+      <h5>{{ userName }} 님 안녕하세요!</h5>
     </nav>
 
     <!-- 장식용 하단 줄 -->

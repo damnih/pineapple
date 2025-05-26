@@ -19,27 +19,31 @@ import ArticleBox from "@/components/ArticleBox.vue"
 import { ref } from "vue"
 import axios from "axios"
 import { useArticleStore } from "@/stores/articles.js"
+import { useAccountStore } from "@/stores/accounts.js"
 import { useRouter } from "vue-router"
 
 const store = useArticleStore()
+const account = useAccountStore()
 const router = useRouter()
 
 const title = ref(null)
 const content = ref(null)
 
 const createArticle = function () {
-  console.log(title.value, content.value)
-  axios.post(`${store.API_URL}`, {
-    title: title.value,
-    content: content.value
-  }, {
-    headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
-    }
+  axios({
+    method: 'post',
+    url: `${store.API_URL}create/`,
+    data: {
+      title: title.value,
+      content: content.value,
+      token: account.token
+    },
+  //   headers: {
+  //   Authorization: `Token ${account.token}`
+  // }
   })
     .then(() => {
-      router.push({ name: article })
+      router.push({ name: 'article' })
     }).catch(err => console.log(err))
 }
 </script>

@@ -1,6 +1,8 @@
 <template>
   <ArticleBox>
     <button class="btn btn-primary" @click="handleCreateClick">CREATE</button>
+    <br>
+    <br>
     <ArticleList />
   </ArticleBox>
 </template>
