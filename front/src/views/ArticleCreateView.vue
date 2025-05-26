@@ -27,8 +27,6 @@ const router = useRouter()
 const title = ref(null)
 const content = ref(null)
 
-
-
 const createArticle = function () {
   console.log(title.value, content.value)
   axios.post(`${store.API_URL}`, {
