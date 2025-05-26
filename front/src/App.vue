@@ -16,8 +16,9 @@
         :to="{ name: 'login' }"
       >LOGIN</RouterLink>
       
+      <!-- v-if="isLoggedIn" -->
       <a
-        v-else
+        v-if="isLoggedIn"
         class="nav-link"
         href="#"
         @click.prevent="accountStore.logOut()"
@@ -34,6 +35,13 @@
       </form>
     </nav>
 
+    <!-- 로그인 완료 시 누구님! 보이게 해주는 것  -->
+    <nav v-if="isLoggedIn"> 
+
+    <!-- 디버그: 토큰과 user 객체를 찍어 봅니다 -->
+      {{ userName }} 님 안녕하세요! 
+    </nav>
+
     <!-- 장식용 하단 줄 -->
     <div class="decorative-bar">
       <div class="bar black"></div>
@@ -47,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterView, RouterLink, useRouter } from 'vue-router'
 
 import { useAccountStore } from '@/stores/accounts.js'
@@ -71,7 +79,18 @@ const searchVideos = async (event) => {
   router.push({ name: 'youtube', query: { q: searchQuery.value } })
 }
 
+
+// user 객체가 있으면 name 필드 꺼내기
+const userName   = computed(() => accountStore.user?.name || '')
+
+// 앱 시작 시, 저장된 토큰이 있으면 프로필 fetch
+onMounted(() => {
+  accountStore.fetchUser()
+})
+
+
 </script>
+
 
 <style scoped>
 .main-navbar {
