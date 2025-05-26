@@ -15,6 +15,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import CustomUserCreationSerializer
 
+from rest_framework.permissions import AllowAny
+
 
 # Create your views here.
 
@@ -35,14 +37,20 @@ class SignupView(APIView):
 
 
 class LoginView(APIView):
+    authentication_classes = []      # 로그인 자체는 인증이 필요 없으니 비워 둡니다
+    permission_classes = [AllowAny]
+
+
+
     def post(self, request):
         print("Incoming data:", request.data)  
         # 1) 요청 데이터에서 id, pw 추출
         username = request.data.get('id')
-        password      = request.data.get('pw')
+        password = request.data.get('pw')
 
         # 2) 인증 시도
         user = authenticate(username=username, password=password)
+        print("Authenticated user:", user)
         if not user:
             # 인증 실패
             return Response(
@@ -51,13 +59,19 @@ class LoginView(APIView):
             )
 
         # 3) 인증 성공 → 토큰 발급(또는 기존 토큰 가져오기)
-        token, _ = Token.objects.get_or_create(user=user)
+        # token, _ = Token.objects.get_or_create(user=user)
 
-        # 4) 토큰 반환
-        return Response(
-            {'key': token.key},
-            status=status.HTTP_200_OK
-        )
+        token, created = Token.objects.get_or_create(user=user)
+        print("Token:", token.key, "created?", created)
+
+        return Response({'key': token.key}, status=status.HTTP_200_OK)
+
+
+        # # 4) 토큰 반환
+        # return Response(
+        #     {'key': token.key},
+        #     status=status.HTTP_200_OK
+        # )
 
 
 # class LoginView(APIView):
