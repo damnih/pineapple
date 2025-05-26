@@ -20,7 +20,7 @@ class CustomUserCreationSerializer(serializers.ModelSerializer):
             'password2', 
             'age', 
             'nationality', 
-            'name'
+            'name',
         ]
         extra_kwargs = {
             'name': {'required': True},

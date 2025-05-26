@@ -1,0 +1,102 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-24T08:55:17.878Z",
+        "name": "엔위시",
+        "age": 24,
+        "nationality": "한국",
+        "username": "wish",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-24T09:02:54.441Z",
+        "name": "플라이",
+        "age": 23,
+        "nationality": "한국",
+        "username": "flyup",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-24T09:04:20.911Z",
+        "name": "오시온",
+        "age": 24,
+        "nationality": "한국",
+        "username": "sion",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-24T09:13:51.757Z",
+        "name": "Buckey",
+        "age": 106,
+        "nationality": "USA",
+        "username": "starbucks",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-24T09:15:00.701Z",
+        "name": "김지연",
+        "age": 31,
+        "nationality": "한국",
+        "username": "lovelyz",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

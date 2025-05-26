@@ -3,8 +3,12 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import authenticate
+
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+
+from rest_framework.authtoken.models import Token
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,7 +17,6 @@ from .serializers import CustomUserCreationSerializer
 
 
 # Create your views here.
-
 
 
 class SignupView(APIView):
@@ -31,70 +34,101 @@ class SignupView(APIView):
         )
 
 
+class LoginView(APIView):
+    def post(self, request):
+        print("Incoming data:", request.data)  
+        # 1) 요청 데이터에서 id, pw 추출
+        username = request.data.get('id')
+        password      = request.data.get('pw')
+
+        # 2) 인증 시도
+        user = authenticate(username=username, password=password)
+        if not user:
+            # 인증 실패
+            return Response(
+                {'errors': '아이디 또는 비밀번호가 잘못되었습니다.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 3) 인증 성공 → 토큰 발급(또는 기존 토큰 가져오기)
+        token, _ = Token.objects.get_or_create(user=user)
+
+        # 4) 토큰 반환
+        return Response(
+            {'key': token.key},
+            status=status.HTTP_200_OK
+        )
 
 
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('articles:index')
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save() # 폼 저장하구 
-            return redirect('articles:index')
+# class LoginView(APIView):
+#     def post(self, request):
+
+
+
+# def login(request):
+#     if request.user.is_authenticated:
+#         return redirect('articles:index')
+
+#     if request.method == 'POST':
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             # auth_login(request, 로그인 인증된 유저 객체)
+#             auth_login(request, form.get_user())
+#             return redirect('articles:index')
+#     else:
+#         form = AuthenticationForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'accounts/login.html', context)
+
+
+# @login_required
+# def logout(request):
+#     auth_logout(request)
+#     return redirect('articles:index')
+
+
+
+
+# def signup(request):
+#     if request.user.is_authenticated:
+#         return redirect('articles:index')
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save() # 폼 저장하구 
+#             return redirect('articles:index')
         
-    else:
-        # 회원가입 템플릿과 회원정보 작성을 위한 폼을 올림 
-        # 그렇다면 폼 인스턴스가 필요~! 
-        # form = 유저인포 
-        # 아 그렇다면 이거 임포트가 필요하겠다 임포트하러 맨위로 가자! 
-        form = CustomUserCreationForm()
-    context = {
-        "form": form,
-    }
-    return render(request, 'accounts/signup.html', context)
+#     else:
+#         # 회원가입 템플릿과 회원정보 작성을 위한 폼을 올림 
+#         # 그렇다면 폼 인스턴스가 필요~! 
+#         # form = 유저인포 
+#         # 아 그렇다면 이거 임포트가 필요하겠다 임포트하러 맨위로 가자! 
+#         form = CustomUserCreationForm()
+#     context = {
+#         "form": form,
+#     }
+#     return render(request, 'accounts/signup.html', context)
 
 
 
-def login(request):
-    if request.user.is_authenticated:
-        return redirect('articles:index')
+# def signup(request):
+#     if request.user.is_authenticated:
+#         return redirect('articles:index')
 
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            # auth_login(request, 로그인 인증된 유저 객체)
-            auth_login(request, form.get_user())
-            return redirect('articles:index')
-    else:
-        form = AuthenticationForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'accounts/login.html', context)
-
-
-@login_required
-def logout(request):
-    auth_logout(request)
-    return redirect('articles:index')
-
-
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('articles:index')
-
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('articles:index')
-    else:
-        # 회원가입 템플릿과 회원정보 작성을 위한 form을 응답
-        form = CustomUserCreationForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'accounts/signup.html', context)
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('articles:index')
+#     else:
+#         # 회원가입 템플릿과 회원정보 작성을 위한 form을 응답
+#         form = CustomUserCreationForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'accounts/signup.html', context)
 
 
 # 유저 객체를 삭제

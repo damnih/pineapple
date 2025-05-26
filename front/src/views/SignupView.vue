@@ -39,9 +39,11 @@
 <script setup>
   import Box from '@/components/Box.vue'
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import axios from 'axios'
   import { useAccountStore } from '@/stores/accounts.js'
   
+  const router = useRouter()
   const accountStore = useAccountStore()
   
   const username = ref('')
