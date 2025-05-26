@@ -34,6 +34,11 @@
       </form>
     </nav>
 
+    <!-- 로그인 완료 시 누구님! 보이게 해주는 것  -->
+    <!-- <nav v-if="isLoggedIn"> 
+      {{ user.name }} 님 안녕하세요! 
+    </nav> -->
+
     <!-- 장식용 하단 줄 -->
     <div class="decorative-bar">
       <div class="bar black"></div>
@@ -70,6 +75,17 @@ const searchVideos = async (event) => {
 
   router.push({ name: 'youtube', query: { q: searchQuery.value } })
 }
+
+// 로그인 여부
+const isLoggedIn = computed(() => !!accountStore.token)
+// user 객체가 있으면 name 필드 꺼내기
+const userName   = computed(() => accountStore.user?.name || '')
+
+// 앱 시작 시, 저장된 토큰이 있으면 프로필 fetch
+onMounted(() => {
+  accountStore.fetchUser()
+})
+
 
 </script>
 

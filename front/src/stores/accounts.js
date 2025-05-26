@@ -9,12 +9,8 @@ export const useAccountStore = defineStore('account', () => {
   // const token = ref('')
   const router = useRouter()
 
-    
-  // const signUp = ({ username, password, password2, age, name, nationality }) => {
-  //   return axios.post(`${BASE}/signup/`, {
-  //     username, password, password2, age, name, nationality
-  //   })
-  // }
+  // 로그인한 사용자 정보를 얻어오기 위해 일단 여기 비운 거 하나 만들어둠
+  const user  = ref(null) 
   
   const signUp = function ({username, password, password2, age, name, nationality}) {
     axios({
@@ -49,8 +45,15 @@ export const useAccountStore = defineStore('account', () => {
       token.value = res.data.key
       localStorage.setItem('token', token.value)
       axios.defaults.headers.common['Authorization'] = `Token ${token.value}`
-      router.push({ name: 'home' })
-    } catch (err) {
+      
+      // 프로필 정보 가져오는 걸 여기서!! 
+      await fetchUser()
+
+      // 로그인 성공하면 홈화면으로 ㄱㄱ 
+      router.push({ name: 'home' })  
+    } 
+    // 여긴 에러 뜨면 뭔지 출력해주기 위한 구간 
+      catch (err) {
       console.error(err)
       const msg = err.response?.data?.errors
                 || '로그인 중 문제가 발생했습니다.'
@@ -58,6 +61,19 @@ export const useAccountStore = defineStore('account', () => {
     }
   }
 
+ // 2) 현재 토큰으로 내 정보 가져오기
+  const fetchUser = async () => {
+    if (!token.value) return
+    try {
+      const { data } = await axios.get(`${ACCOUNT_API_URL}/me/`)
+      user.value = data
+    } catch (err) {
+      console.error('유저 프로필 조회 실패', err)
+    }
+  }
+
+
+  // 3) 로그아웃
   const logOut = () => {
     token.value = ''
     localStorage.removeItem('token')
