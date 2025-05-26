@@ -1,12 +1,12 @@
 from django.urls import path, include
-from .views import SignupView
+from .views import SignupView, LoginView
 from articles import views
 
 app_name = 'accounts'
 urlpatterns = [
     # path('', UserCreateView.as_view()),
     path('signup/', SignupView.as_view(), name='signup'),
-    # path('<int:article_pk>/', views.article_detail),
+    path('login/', LoginView.as_view(), name='login'),
     # path('comments/', views.comment_list),
     # path('comments/<int:comment_pk>/', views.comment_detail),
     # path('<int:article_pk>/comments/', views.comment_create),
