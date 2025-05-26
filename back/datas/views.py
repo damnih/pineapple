@@ -185,9 +185,9 @@ class DepositResultAPIView(APIView):
         for opt in top4:
             rate = opt.intr_rate2
             if opt.intr_rate_type_nm == '단리':
-                maturity = budget * (1 + rate * (schedule / 12))
+                maturity = budget * (1 + ( rate / 100 )  * (schedule / 12))
             else:
-                maturity = budget * (1 + rate) ** (schedule / 12)
+                maturity = budget * (1 + ( rate / 100 ) )  ** (schedule / 12)
 
             data.append({
                 **DepositResultSerializer(opt).data,

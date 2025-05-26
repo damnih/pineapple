@@ -27,7 +27,7 @@
           min="0"
           class="form-control mt-2"
           v-model="savedMoney"
-          placeholder="0 이상의 정수를 입력하세요"
+          placeholder="0 이상의 정수를 입력하세요 (단위: 만 원)" 
         />
       </div>
 
