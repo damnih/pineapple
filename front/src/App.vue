@@ -16,6 +16,15 @@
         :to="{ name: 'login' }"
       >LOGIN</RouterLink>
       
+      <RouterLink
+        v-if="isLoggedIn"
+        class="nav-link"
+        :to="{
+          name: 'user-profile',
+          params: { username: accountStore.user.username }
+        }"
+      >MY PROFILE</RouterLink>
+
       <!-- v-if="isLoggedIn" -->
       <a
         v-if="isLoggedIn"
