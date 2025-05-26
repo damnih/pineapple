@@ -16,7 +16,7 @@ from django.http import JsonResponse
 
 from .forms import MyDataForm
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -169,28 +169,25 @@ def filter_by_mine(request):
 
 class DepositResultAPIView(APIView):
     def get(self, request):
-        n    = int(request.query_params.get('schedule_ans', 0))
+        schedule = int(request.query_params.get('schedule_ans', 0))
         dest = request.query_params.get('destination_ans')
-        principal = float(request.query_params.get('budget_ans', 0))
+        budget = float(request.query_params.get('budget_ans', 0))
 
-        qs = DepositOptions.objects.filter(save_trm__lte=n) \
+        qs = DepositOptions.objects.filter(save_trm__lte=schedule) \
                 .select_related('product')
 
-        if dest:
-            qs = qs.filter(product__destination__iexact=dest)
+        # if dest:
+        #     qs = qs.filter(product__destination__iexact=dest)
 
-        # 우대금리(intr_rate2) 내림차순 정렬 후 상위 4개
         top4 = qs.order_by('-intr_rate2')[:4]
 
-        # 계산 로직 포함해서 직렬화
         data = []
         for opt in top4:
             rate = opt.intr_rate2
-            # 단리 vs 복리 분기
             if opt.intr_rate_type_nm == '단리':
-                maturity = principal * (1 + rate * (n/12))
+                maturity = budget * (1 + rate * (schedule / 12))
             else:
-                maturity = principal * (1 + rate) ** (n/12)
+                maturity = budget * (1 + rate) ** (schedule / 12)
 
             data.append({
                 **DepositResultSerializer(opt).data,
@@ -199,16 +196,31 @@ class DepositResultAPIView(APIView):
 
         return Response(data)
 
+
 # 한국은행 api 접속 위한 함수
 def exchange_rate(request, code):
-    today = datetime.now().strftime('%Y%m%d')
-    API_KEY = 'YHDHWWD18JE3MNFIN3JB'
-    url = f'https://ecos.bok.or.kr/api/StatisticSearch/{API_KEY}/json/kr/1/100/731Y001/D/{today}/{today}/{code}'
+    today = datetime.now()
+    week_ago = today - timedelta(days=6)
+
+    today_str = today.strftime('%Y%m%d')
+    week_ago_str = week_ago.strftime('%Y%m%d')
+    
+    API_KEY = settings.BOK_API_KEY
+    url = f'https://ecos.bok.or.kr/api/StatisticSearch/{API_KEY}/json/kr/1/100/731Y001/D/{week_ago_str}/{today_str}/{code}'
 
     try:
         response = requests.get(url)
         data = response.json()
-        value = data['StatisticSearch']['row'][0]['DATA_VALUE']
-        return JsonResponse({'rate': value})
+        rows = data.get('StatisticSearch', {}).get('row', [])
+
+        # 주말 등 값이 없는 날짜는 자동 필터링
+        cleaned_data = [
+            {'date': r['TIME'], 'rate': r['DATA_VALUE']}
+            for r in rows
+            if 'DATA_VALUE' in r
+        ]
+
+        return JsonResponse({'rates': cleaned_data})
+
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

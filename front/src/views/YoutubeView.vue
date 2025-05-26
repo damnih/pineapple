@@ -1,13 +1,11 @@
 <template>
   <div class="row mx-auto">
       <div class="video-container" v-if="searchResults.length">
-      <div class="row" v-for="video in searchResults" :key="video.id.videoId">
-        <div class="col-3">
+      <div class="col-3" v-for="video in searchResults" :key="video.id.videoId">
         <VideoCard
           :videoId="video.id.videoId"
           :title="video.snippet.title"
         />
-        </div>
       </div>
     </div>
   </div>
@@ -24,7 +22,7 @@ const searchQuery = ref('')
 const searchResults = ref([])
 
 const searchVideos = async () => {
-  const API_KEY = 'AIzaSyBf99e9WBUPAtjBWQcwANgfFWbyY-xW0Yc'
+  const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
   const query = searchQuery.value
   if (!query) return
 

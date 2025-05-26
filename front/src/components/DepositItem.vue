@@ -1,7 +1,7 @@
 <template>
   <div class="border rounded-4 p-4 mb-5" style="max-width: 700px; margin: auto; font-family: sans-serif;">
     <!-- 상품명 -->
-    <h3 class="text-center fw-bold mb-3">{{ product }}</h3>
+    <h3 class="text-center fw-bold mb-3">{{ product_name }}</h3>
     <hr />
 
     <!-- 은행명 뱃지 -->
@@ -14,13 +14,13 @@
       <div class="circle">
         <div class="text-center text-white">
           <div class="fw-bold">최고</div>
-          <div class="fs-5">{{ result }}원</div>
+          <div class="fs-5">{{ maturity_amount.toLocaleString() }} 만원</div>
         </div>
       </div>
       <div class="circle">
         <div class="text-center text-white">
           <div class="fw-bold">금리</div>
-          <div class="fs-5">{{ intr_rate2 }}%</div>
+          <div class="fs-5"> 최대 {{ intr_rate2 }}%</div>
         </div>
       </div>
     </div>
@@ -49,15 +49,15 @@
 
 <script setup>
 defineProps({
-  product: String,
+  product_name: String,
   kor_co_nm: String,
-  result: String,            // 계산된 결과: 받을 수 있는 최대금액
-  intr_rate2: String,        // 최고 금리
-  intr_rate: String,         // 기본 금리
+  maturity_amount: Number,
+  intr_rate2: Number,
+  intr_rate: Number,
   join_way: String,
   intr_rate_type_nm: String,
-  spcl_cnd: String,          // 여러 줄일 수 있으므로 \n 기준으로 분리
-  etc_note: String           // 여러 줄일 수 있으므로 \n 기준으로 분리
+  spcl_cnd: String,
+  etc_note: String
 })
 </script>
 
