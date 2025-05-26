@@ -3,8 +3,29 @@
     <!-- 네비게이션 상단 줄 -->
     <nav class="main-navbar">
       <RouterLink class="nav-link" :to="{ name: 'home' }">HOME</RouterLink>
-      <RouterLink class="nav-link" :to="{ name: 'signup' }">SIGNUP</RouterLink>
-      <RouterLink class="nav-link" :to="{ name: 'login' }">LOGIN</RouterLink>
+      
+      <RouterLink
+        v-if="!isLoggedIn"
+        class="nav-link"
+        :to="{ name: 'signup' }"
+      >SIGNUP</RouterLink>
+      
+      <RouterLink
+        v-if="!isLoggedIn"
+        class="nav-link"
+        :to="{ name: 'login' }"
+      >LOGIN</RouterLink>
+      
+      <a
+        v-else
+        class="nav-link"
+        href="#"
+        @click.prevent="accountStore.logOut()"
+      >LOGOUT</a>
+      
+      
+      <!-- <RouterLink class="nav-link" :to="{ name: 'signup' }">SIGNUP</RouterLink>
+      <RouterLink class="nav-link" :to="{ name: 'login' }">LOGIN</RouterLink> -->
 
       <!-- 여행지 정보 유튜브 검색 -->
       <form class="d-flex ms-auto" role="search">
@@ -26,8 +47,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterView, RouterLink, useRouter } from 'vue-router'
+
+import { useAccountStore } from '@/stores/accounts.js'
+
+const accountStore = useAccountStore()
+
+// 로그인 여부 계산: token이 빈 문자열이 아니면 true
+const isLoggedIn = computed(() => !!accountStore.token)
+
 
 const router = useRouter()
 
