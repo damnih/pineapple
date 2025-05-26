@@ -13,9 +13,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import CustomUserCreationSerializer
+from .serializers import CustomUserCreationSerializer, UserProfileSerializer
 
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 # Create your views here.
@@ -40,8 +40,6 @@ class LoginView(APIView):
     authentication_classes = []      # 로그인 자체는 인증이 필요 없으니 비워 둡니다
     permission_classes = [AllowAny]
 
-
-
     def post(self, request):
         print("Incoming data:", request.data)  
         # 1) 요청 데이터에서 id, pw 추출
@@ -59,71 +57,21 @@ class LoginView(APIView):
             )
 
         # 3) 인증 성공 → 토큰 발급(또는 기존 토큰 가져오기)
-        # token, _ = Token.objects.get_or_create(user=user)
-
         token, created = Token.objects.get_or_create(user=user)
         print("Token:", token.key, "created?", created)
 
+        # 4) 토큰 반환
         return Response({'key': token.key}, status=status.HTTP_200_OK)
 
 
-        # # 4) 토큰 반환
-        # return Response(
-        #     {'key': token.key},
-        #     status=status.HTTP_200_OK
-        # )
+class UserView(APIView):
+    # pass
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
 
-# class LoginView(APIView):
-#     def post(self, request):
-
-
-
-# def login(request):
-#     if request.user.is_authenticated:
-#         return redirect('articles:index')
-
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             # auth_login(request, 로그인 인증된 유저 객체)
-#             auth_login(request, form.get_user())
-#             return redirect('articles:index')
-#     else:
-#         form = AuthenticationForm()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'accounts/login.html', context)
-
-
-# @login_required
-# def logout(request):
-#     auth_logout(request)
-#     return redirect('articles:index')
-
-
-
-
-# def signup(request):
-#     if request.user.is_authenticated:
-#         return redirect('articles:index')
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save() # 폼 저장하구 
-#             return redirect('articles:index')
-        
-#     else:
-#         # 회원가입 템플릿과 회원정보 작성을 위한 폼을 올림 
-#         # 그렇다면 폼 인스턴스가 필요~! 
-#         # form = 유저인포 
-#         # 아 그렇다면 이거 임포트가 필요하겠다 임포트하러 맨위로 가자! 
-#         form = CustomUserCreationForm()
-#     context = {
-#         "form": form,
-#     }
-#     return render(request, 'accounts/signup.html', context)
 
 
 
