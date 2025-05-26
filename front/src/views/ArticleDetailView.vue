@@ -12,7 +12,8 @@
 
     <hr>
     <h5>댓글</h5>
-    <CommentList />
+    <CommentList :comments="comments" />
+    <CommentForm :onSuccess="fetchComments" />
   </ArticleBox>
   
 </template>
@@ -25,12 +26,16 @@ import { useRoute } from "vue-router"
 import { useArticleStore } from "@/stores/articles.js"
 import { useAccountStore } from "@/stores/accounts.js"
 import CommentList from "@/components/CommentList.vue"
+import CommentForm from '@/components/CommentForm.vue'
 
 const account = useAccountStore()
 
 const store = useArticleStore()
 const route = useRoute()
 const article = ref(null)
+
+const comments = ref([])
+const newComment = ref('')
 
 onMounted(() => {
   axios({
@@ -46,7 +51,9 @@ onMounted(() => {
 })
 
 const fetchComments = () => {
-  axios.get(`${store.API_URL}${route.params.id}/comments/`)
+  axios.get(`${store.API_URL}comments/`, {
+    params: { article_pk: route.params.id }
+  })
     .then((res) => {
       comments.value = res.data
     })
