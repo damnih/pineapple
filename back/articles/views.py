@@ -122,11 +122,21 @@ def article_detail(request, article_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @api_view(['GET'])
+# def comment_list(request):
+#     # 댓글 전체 조회
+#     comments = Comment.objects.all()
+#     # 댓글 데이터를 가공
+#     serializer = CommentSerializer(comments, many=True)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
 def comment_list(request):
-    # 댓글 전체 조회
-    comments = Comment.objects.all()
-    # 댓글 데이터를 가공
+    article_pk = request.query_params.get('article_pk')
+    if article_pk is not None:
+        comments = Comment.objects.filter(article__pk=article_pk)
+    else:
+        comments = Comment.objects.all()  # 예외적으로 전체 댓글 반환 가능
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 

@@ -1,3 +1,5 @@
+<!-- CommentList.vue -->
+
 <template>
   <div v-if="comments.length">
     <CommentListItem 
