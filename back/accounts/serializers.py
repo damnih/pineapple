@@ -46,3 +46,10 @@ class CustomUserCreationSerializer(serializers.ModelSerializer):
             nationality=validated_data.get('nationality', '')  # 선택적 필드
         )
         return user
+    
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'name', 'age', 'nationality')
