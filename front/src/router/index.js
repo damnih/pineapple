@@ -9,6 +9,7 @@ import LoginView from '@/views/LoginView.vue'
 import MapView from '@/views/MapView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import RecommendView from '@/views/RecommendView.vue'
+import ArticleCreateView from '@/views/ArticleCreateView.vue'
 
 
 const router = createRouter({
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/recommend',
       name: 'recommend',
       component: RecommendView,
+    },
+    {
+      path: '/create',
+      name: 'create',
+      component: ArticleCreateView,
     },
   ],
 })

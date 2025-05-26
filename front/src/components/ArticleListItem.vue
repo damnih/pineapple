@@ -1,7 +1,7 @@
 <template>
   <div>
     <RouterLink
-      :to="{ name: 'DetailView', params: { id: article.id } }"
+      :to="{ name: 'Detail', params: { id: article.id } }"
       class="text-decoration-none text-dark"
     >
       <h5 class="mb-1">{{ article.title }}</h5>
