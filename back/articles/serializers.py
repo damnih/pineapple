@@ -15,6 +15,12 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'content', 'author', 'created_at',)
         read_only_fields = ('author',)
 
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id', 'username',)
+    author = UserSerializer(read_only=True)
+
 
 
 # # 게시글의 전체 필드를 직렬화 하는 클래스

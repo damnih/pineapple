@@ -52,4 +52,4 @@ class CustomUserCreationSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'name', 'age', 'nationality')
+        fields = ('id', 'username', 'name', 'age', 'nationality')

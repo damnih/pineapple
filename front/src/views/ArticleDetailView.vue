@@ -1,53 +1,60 @@
+<!-- ArticleDetailView.vue -->
+
 <template>
   <ArticleBox>
     <RouterLink :to="{ name: 'article' }" class="btn btn-primary">뒤로 가기</RouterLink>
-    <br>
-    <br>
+    <br><br>
+
     <div v-if="article">
-      <h3>{{ article.title }}</h3>
-      <p>작성자 : {{ account.user.username }}  |  작성일 : {{ article.created_at }}</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ article.title }}</h3>
+        <!-- 본인일 때만 삭제 버튼 표시 -->
+        <button
+          v-if="account.user.id === article.author.id"
+          @click="deleteArticle"
+          class="btn btn-sm btn-danger"
+        >
+          삭제
+        </button>
+      </div>
+      <p>작성자 : {{ article.author.username }} | 작성일 : {{ article.created_at }}</p>
       <hr>
       {{ article.content }}
     </div>
 
     <hr>
     <h5>댓글</h5>
-    <CommentList :comments="comments" />
+    <CommentList :comments="comments" @refresh="fetchComments" />
     <CommentForm :onSuccess="fetchComments" />
   </ArticleBox>
-  
 </template>
 
 <script setup>
 import ArticleBox from "@/components/ArticleBox.vue"
 import axios from 'axios'
 import { ref, onMounted } from "vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useArticleStore } from "@/stores/articles.js"
 import { useAccountStore } from "@/stores/accounts.js"
 import CommentList from "@/components/CommentList.vue"
 import CommentForm from '@/components/CommentForm.vue'
 
 const account = useAccountStore()
-
 const store = useArticleStore()
 const route = useRoute()
-const article = ref(null)
+const router = useRouter()
 
+const article = ref(null)
 const comments = ref([])
-const newComment = ref('')
 
 onMounted(() => {
-  axios({
-    method: 'get',
-    url: `${store.API_URL}${route.params.id}/`,
-  })
+  axios.get(`${store.API_URL}${route.params.id}/`)
     .then((res) => {
       article.value = res.data
     })
     .catch(err => console.log(err))
 
-    fetchComments()
+  fetchComments()
 })
 
 const fetchComments = () => {
@@ -60,21 +67,20 @@ const fetchComments = () => {
     .catch(err => console.log(err))
 }
 
-const createComment = () => {
-  if (!newComment.value.trim()) return
-  axios.post(`${store.API_URL}${route.params.id}/comments/`, {
-    content: newComment.value,
-  }, {
-    headers: {
-      Authorization: `Token ${account.token}`
-    }
-  })
-    .then(() => {
-      newComment.value = ''
-      fetchComments()
+const deleteArticle = async () => {
+  const confirmDelete = confirm("정말로 게시글을 삭제하시겠습니까?")
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${store.API_URL}${route.params.id}/`, {
+      headers: {
+        Authorization: `Token ${account.token}`
+      }
     })
-    .catch(err => console.log(err))
+    // 삭제 후 목록 페이지로 이동
+    router.push({ name: 'article' })
+  } catch (err) {
+    console.error("게시글 삭제 실패:", err)
+  }
 }
 </script>
-
-<style scoped></style>
