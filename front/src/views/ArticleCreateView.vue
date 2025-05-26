@@ -27,14 +27,18 @@ const router = useRouter()
 const title = ref(null)
 const content = ref(null)
 
+
+
 const createArticle = function () {
-  axios({
-    method: 'post',
-    url: `${store.API_URL}`,
-    data: {
-      title: title.value,
-      content: content.value
-    },
+  console.log(title.value, content.value)
+  axios.post(`${store.API_URL}`, {
+    title: title.value,
+    content: content.value
+  }, {
+    headers: {
+      Authorization: `Token ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
   })
     .then(() => {
       router.push({ name: article })
