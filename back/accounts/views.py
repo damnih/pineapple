@@ -16,7 +16,9 @@ from rest_framework import status
 from .serializers import CustomUserCreationSerializer, UserProfileSerializer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from rest_framework.generics   import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated  # 혹은 AllowAny
+from .models import User
 
 # Create your views here.
 
@@ -71,6 +73,12 @@ class UserView(APIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
+
+class UserDetailView(RetrieveAPIView):
+    queryset         = User.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field     = 'username'      # URL에서 username을 기준으로 조회
+    permission_classes = [IsAuthenticated]
 
 
 

@@ -10,7 +10,7 @@ import MapView from '@/views/MapView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import RecommendView from '@/views/RecommendView.vue'
 import ArticleCreateView from '@/views/ArticleCreateView.vue'
-
+import ProfileView from '@/views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +69,18 @@ const router = createRouter({
       path: '/create',
       name: 'create',
       component: ArticleCreateView,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/profile/:username',
+      name: 'user-profile',
+      component: ProfileView,
+      meta: { requiresAuth: true }
     },
   ],
 })
