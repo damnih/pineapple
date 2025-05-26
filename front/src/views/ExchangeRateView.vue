@@ -63,7 +63,7 @@ const chartOptions = {
   responsive: true,
   plugins: {
     legend: { position: 'top' },
-    title: { display: true, text: '일주일간 환율 변화' }
+    title: { display: true, text: '한 달 간 환율 변화' }
   }
 }
 

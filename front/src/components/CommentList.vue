@@ -3,6 +3,7 @@
     <CommentListItem 
     v-for="(comment, index) in comments" 
     :key="index" 
+    :comment="comment"
     class="mb-3"
     />
   </div>
