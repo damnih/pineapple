@@ -8,16 +8,17 @@ from .serializers import DepositProductsSerializer, DepositOptionsSerializer, De
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import DepositOptions
-from .serializers import DepositResultSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 
-from rest_framework import status, generics
+from rest_framework import status, generics, viewsets, permissions
 from django.http import JsonResponse
 
 from .forms import MyDataForm
 
 from datetime import datetime, timedelta
 
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListAPIView
 
 # Create your views here.
 
@@ -251,3 +252,79 @@ class DepositProductListView(generics.ListAPIView):
         if bank:
             qs = qs.filter(kor_co_nm=bank)
         return qs
+    
+
+class WishlistToggleAPIView(APIView):
+    """
+    POST /api/deposit_results/<int:id>/toggle-like/
+    토글 방식으로 좋아요(add/remove) 처리
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, id):
+        product = get_object_or_404(DepositProducts, pk=id)
+        user = request.user
+
+        if product.likes.filter(pk=user.pk).exists():
+            product.likes.remove(user)
+            return Response({'removed': True}, status=status.HTTP_200_OK)
+
+        product.likes.add(user)
+        return Response({'added': True}, status=status.HTTP_201_CREATED)
+
+
+class WishlistListAPIView(ListAPIView):
+    """
+    GET /api/deposit_results/liked/
+    로그인한 사용자가 좋아요한 상품만 반환
+    """
+    serializer_class = DepositProductsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return DepositProducts.objects.filter(likes=user)
+
+
+
+
+
+
+# class DepositProductViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = DepositProducts.objects.all()
+#     serializer_class = DepositProductsSerializer
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+#     @action(
+#         detail=True,
+#         methods=['post'],
+#         permission_classes=[permissions.IsAuthenticated],
+#         url_path='toggle-like',
+#     )
+#     def toggle_like(self, request, pk=None):
+#         product = self.get_object()
+#         user = request.user
+#         if product.likes.filter(pk=user.pk).exists():
+#             product.likes.remove(user)
+#             return Response({'removed': True}, status=status.HTTP_200_OK)
+#         else:
+#             product.likes.add(user)
+#             return Response({'added': True}, status=status.HTTP_201_CREATED)
+
+#     @action(
+#         detail=False,
+#         methods=['get'],
+#         permission_classes=[permissions.IsAuthenticated],
+#         url_path='liked',
+#     )
+#     def liked(self, request):
+#         user = request.user
+#         qs = self.get_queryset().filter(likes=user)
+#         page = self.paginate_queryset(qs)
+#         if page is not None:
+#             serializer = self.get_serializer(page, many=True)
+#             return self.get_paginated_response(serializer.data)
+#         serializer = self.get_serializer(qs, many=True)
+#         return Response(serializer.data)
+    
+
