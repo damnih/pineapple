@@ -10,7 +10,7 @@ export const useAccountStore = defineStore('account', () => {
   const router = useRouter()
 
   // 로그인한 사용자 정보를 얻어오기 위해 일단 여기 비운 거 하나 만들어둠
-  const user  = ref(null) 
+  const user = ref({})
   
   const signUp = function ({username, password, password2, age, name, nationality}) {
     axios({

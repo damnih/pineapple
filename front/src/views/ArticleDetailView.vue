@@ -12,7 +12,7 @@
 
     <hr>
     <h5>댓글</h5>
-    <CommentList />
+    <!-- <CommentList /> -->
   </ArticleBox>
   
 </template>
