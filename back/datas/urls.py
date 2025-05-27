@@ -17,4 +17,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('api/deposit_results/', DepositResultAPIView.as_view()),
     path('exchange-rate/<str:code>/', exchange_rate),
+    path('deposit_results/<int:id>/', views.deposit_result_detail),
 ]
