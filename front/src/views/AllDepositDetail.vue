@@ -48,7 +48,7 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 import ArticleBox from '@/components/ArticleBox.vue'
 
-const deposit = ref(null)
+const deposit = ref('')
 const route = useRoute()
 
 onMounted(async () => {

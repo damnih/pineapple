@@ -1,7 +1,9 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
+User = settings.AUTH_USER_MODEL
 
 class DepositProducts(models.Model):
     fin_prdt_cd = models.TextField(unique=True) # 금융 상품 코드 
@@ -12,6 +14,8 @@ class DepositProducts(models.Model):
     join_member = models.TextField() # 가입 대상
     join_way = models.TextField() # 가입 방법
     spcl_cnd = models.TextField() # 우대조건 
+    # subscribes = models.ManyToManyField(User, related_name='subs_list')
+    # likes = models.ManyToManyField(User, related_name='likes_list')
 
 
 class DepositOptions(models.Model):

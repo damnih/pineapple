@@ -11,12 +11,13 @@ from .models import DepositOptions
 from .serializers import DepositResultSerializer
 from rest_framework.decorators import api_view
 
-from rest_framework import status
+from rest_framework import status, generics
 from django.http import JsonResponse
 
 from .forms import MyDataForm
 
 from datetime import datetime, timedelta
+
 
 # Create your views here.
 
@@ -234,3 +235,19 @@ def deposit_result_detail(request, id):
     
     serializer = DepositResultSerializer(option)
     return Response(serializer.data)
+
+# @api_view(['GET'])
+# def deposit_result_fail(request):
+#     products = DepositProducts.objects.all()
+#     serializer = DepositResultSerializer(products, many=True)
+#     return Response(serializer.data)
+
+class DepositProductListView(generics.ListAPIView):
+    serializer_class = DepositProductsSerializer
+
+    def get_queryset(self):
+        qs = DepositProducts.objects.all()
+        bank = self.request.query_params.get('kor_co_nm')
+        if bank:
+            qs = qs.filter(kor_co_nm=bank)
+        return qs

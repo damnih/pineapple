@@ -28,6 +28,7 @@
     <br>
     <CommentList :comments="comments" @deleted="fetchComments" />
     <CommentForm :onSuccess="fetchComments" />
+
   </ArticleBox>
 </template>
 
