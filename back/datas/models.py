@@ -14,8 +14,8 @@ class DepositProducts(models.Model):
     join_member = models.TextField() # 가입 대상
     join_way = models.TextField() # 가입 방법
     spcl_cnd = models.TextField() # 우대조건 
-    # subscribes = models.ManyToManyField(User, related_name='subs_list')
-    # likes = models.ManyToManyField(User, related_name='likes_list')
+    subscribes = models.ManyToManyField(User, related_name='subs_list') # 현재 가입 중인 금융 상품
+    likes = models.ManyToManyField(User, related_name='likes_list') # 장바구니에 담을 금융 상품 
 
 
 class DepositOptions(models.Model):

@@ -13,6 +13,12 @@ class DepositProductsSerializer(serializers.ModelSerializer):
         model = DepositProducts
         fields = '__all__'
 
+    def get_is_liked(self, obj):
+        user = self.context['request'].user
+        if not user or not user.is_authenticated:
+            return False
+        return obj.likes.filter(pk=user.pk).exists()
+
 
 
 class DepositResultSerializer(serializers.ModelSerializer):
