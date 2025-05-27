@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import requests 
 from django.conf import settings 
 from .models import DepositProducts, DepositOptions
-from .serializers import DepositProductsSerializer, DepositOptionsSerializer
+from .serializers import DepositProductsSerializer, DepositOptionsSerializer, DepositResultSerializer
 # from django.contrib.auth.decorators import 
 
 from rest_framework.views import APIView
@@ -11,12 +11,13 @@ from .models import DepositOptions
 from .serializers import DepositResultSerializer
 from rest_framework.decorators import api_view
 
-from rest_framework import status
+from rest_framework import status, generics
 from django.http import JsonResponse
 
 from .forms import MyDataForm
 
 from datetime import datetime, timedelta
+
 
 # Create your views here.
 
@@ -224,3 +225,29 @@ def exchange_rate(request, code):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+@api_view(['GET'])
+def deposit_result_detail(request, id):
+    try:
+        option = DepositOptions.objects.get(pk=id)
+    except DepositOptions.DoesNotExist:
+        return Response({'error': 'Not found'}, status=404)
+    
+    serializer = DepositResultSerializer(option)
+    return Response(serializer.data)
+
+# @api_view(['GET'])
+# def deposit_result_fail(request):
+#     products = DepositProducts.objects.all()
+#     serializer = DepositResultSerializer(products, many=True)
+#     return Response(serializer.data)
+
+class DepositProductListView(generics.ListAPIView):
+    serializer_class = DepositProductsSerializer
+
+    def get_queryset(self):
+        qs = DepositProducts.objects.all()
+        bank = self.request.query_params.get('kor_co_nm')
+        if bank:
+            qs = qs.filter(kor_co_nm=bank)
+        return qs

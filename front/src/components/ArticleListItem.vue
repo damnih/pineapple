@@ -6,7 +6,7 @@
       class="text-decoration-none text-dark d-flex align-items-center justify-content-between"
     >
       <h5 class="mb-0 me-2">{{ article.title }}</h5>
-      <p class="mb-0">{{ account.user.username }}</p>
+      <p class="mb-0">{{ article.author.username }}</p>
     </RouterLink>
   </div>
   <hr>
