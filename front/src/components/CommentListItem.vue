@@ -3,9 +3,8 @@
 <template>
   <div class="d-flex justify-content-between">
     <p class="mb-1">
-      {{ comment.content }}
+      {{ comment.comment_author.username }} | {{ comment.content }}
     </p>
-    <p>{{ comment.comment_author_id }}</p>
     <button
       v-if="account.user.id === comment.comment_author.id"
       @click="deleteComment"

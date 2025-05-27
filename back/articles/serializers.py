@@ -5,21 +5,28 @@ from django.contrib.auth import get_user_model
 
 # 게시글의 일부 필드를 직렬화 하는 클래스
 class ArticleListSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id', 'username',)
+
+    author = UserSerializer(read_only=True)
     class Meta:
         model = Article
         fields = ('id', 'title', 'content', 'author', 'created_at',)
 
 class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ('id', 'title', 'content', 'author', 'created_at',)
-        read_only_fields = ('author',)
-
     class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = get_user_model()
             fields = ('id', 'username',)
+
     author = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ('id', 'title', 'content', 'author', 'created_at',)
+        read_only_fields = ('author',)
 
 
 

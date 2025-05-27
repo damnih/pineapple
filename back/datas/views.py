@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import requests 
 from django.conf import settings 
 from .models import DepositProducts, DepositOptions
-from .serializers import DepositProductsSerializer, DepositOptionsSerializer
+from .serializers import DepositProductsSerializer, DepositOptionsSerializer, DepositResultSerializer
 # from django.contrib.auth.decorators import 
 
 from rest_framework.views import APIView
@@ -224,3 +224,13 @@ def exchange_rate(request, code):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+@api_view(['GET'])
+def deposit_result_detail(request, id):
+    try:
+        option = DepositOptions.objects.get(pk=id)
+    except DepositOptions.DoesNotExist:
+        return Response({'error': 'Not found'}, status=404)
+    
+    serializer = DepositResultSerializer(option)
+    return Response(serializer.data)
