@@ -18,7 +18,7 @@ urlpatterns = [
     path('api/deposit_results/', DepositResultAPIView.as_view()),
     path('exchange-rate/<str:code>/', exchange_rate),
     path('deposit_results/', DepositProductListView.as_view(), name='deposit-list'),
-    path('deposit_results/<int:id>/', views.deposit_result_detail),
+    path('deposit_results/<int:id>/', views.deposit_product_detail),
     # [NEW] 좋아요 토글 (추가/제거) # POST /api/deposit_results/<int:id>/toggle-like/
     path('deposit_results/<int:id>/toggle-like/', WishlistToggleAPIView.as_view(), name='api-deposit-toggle-like'),
     # [NEW] 내가 좋아요한 상품 목록 조회

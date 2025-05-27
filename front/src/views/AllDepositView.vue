@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="container mt-3">
     <label>
       은행 선택:
-      <select v-model="selectedBank" @change="fetchProducts">
+      <select v-model="selectedBank" @change="fetchProducts" class="form-select w-auto d-inline-block ms-2">
         <option value="">전체</option>
         <option v-for="bank in banks" :key="bank" :value="bank">
           {{ bank }}
@@ -13,15 +13,15 @@
     <div v-if="loading" class="mt-3">로딩 중…</div>
     <div v-else-if="error" class="mt-3 text-danger">{{ error }}</div>
 
-    <div v-else class="row mt-3">
+    <div v-else class="row justify-content-center mt-4">
       <div
         v-for="product in depositList"
         :key="product.id"
-        class="col-12 col-md-6 mb-4"
+        class="col-12 col-md-5 col-lg-4 mb-4"
       >
         <RouterLink
           :to="{ name: 'alldepositdetail', params: { id: product.id } }"
-          class="card p-3 text-decoration-none text-dark h-100"
+          class="card p-3 text-decoration-none text-dark h-100 shadow-sm"
         >
           <h5 class="mb-1">{{ product.fin_prdt_nm }}</h5>
           <p class="mb-1"><strong>은행:</strong> {{ product.kor_co_nm }}</p>
@@ -40,6 +40,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
