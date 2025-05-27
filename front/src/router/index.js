@@ -90,7 +90,7 @@ const router = createRouter({
 
 
     {
-      path: '/alldepositdetail/:id',
+      path: '/all-deposit-detail/:id',
       name: 'alldepositdetail',
       component: AllDepositDetail,
     },
