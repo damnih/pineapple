@@ -1,5 +1,6 @@
 from rest_framework import serializers 
 from .models import Article, Comment
+from django.contrib.auth import get_user_model
 
 
 # 게시글의 일부 필드를 직렬화 하는 클래스
@@ -13,6 +14,12 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('id', 'title', 'content', 'author', 'created_at',)
         read_only_fields = ('author',)
+
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id', 'username',)
+    author = UserSerializer(read_only=True)
 
 
 
@@ -51,6 +58,12 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 # 댓글의 전체 필드를 직렬화하는 클래스
 class CommentSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id', 'username',)
+
+    comment_author = UserSerializer(read_only=True)
     # 외래 키 필드 article 의 데이터를 재구성하기위한 도구
     class ArticleTitleSerializer(serializers.ModelSerializer):
         class Meta:
@@ -62,6 +75,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+        read_only_fields = ('article', 'comment_author',)
         # 외래키 필드를 유효성 검사에서 목록에서 빼줘야 함
         # 그런데 응답 데이터에는 포함되어있어야 함
         # 읽기 전용 필드로 설정

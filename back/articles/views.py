@@ -12,6 +12,9 @@ from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerial
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
 
 # Create your views here.
 
@@ -119,11 +122,21 @@ def article_detail(request, article_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @api_view(['GET'])
+# def comment_list(request):
+#     # 댓글 전체 조회
+#     comments = Comment.objects.all()
+#     # 댓글 데이터를 가공
+#     serializer = CommentSerializer(comments, many=True)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
 def comment_list(request):
-    # 댓글 전체 조회
-    comments = Comment.objects.all()
-    # 댓글 데이터를 가공
+    article_pk = request.query_params.get('article_pk')
+    if article_pk is not None:
+        comments = Comment.objects.filter(article__pk=article_pk)
+    else:
+        comments = Comment.objects.all()  # 예외적으로 전체 댓글 반환 가능
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
@@ -153,6 +166,7 @@ def comment_detail(request, comment_pk):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def comment_create(request, article_pk):
     # 어떤 게시글에 작성되는 댓글인지 단일 게시글을 조회
     article = Article.objects.get(pk=article_pk)
@@ -161,5 +175,5 @@ def comment_create(request, article_pk):
     # 유효한지 검사
     if serializer.is_valid(raise_exception=True):
         # 추가 데이터를 save 메서드의 인자로 작성
-        serializer.save(article=article)
+        serializer.save(article=article, comment_author=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
