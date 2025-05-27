@@ -1,7 +1,12 @@
 <template>
   <ArticleBox>
     <div class="detail-container">
-      <h1 class="title">정기예금 상세</h1>
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="title">정기예금 상세</h1>
+        <button @click="toggleLike" class="heart-btn">
+          {{ isLiked ? '❤️' : '♡' }}
+        </button>
+      </div>
       <br><hr><br>
       <div class="row">
         <div class="label">상품명</div>
@@ -47,6 +52,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import ArticleBox from '@/components/ArticleBox.vue'
+import { useAccountStore } from '@/stores/accounts.js'
 
 const deposit = ref('')
 const route = useRoute()
@@ -91,5 +97,12 @@ const formattedSpclCnd = computed(() =>
 .value {
   flex: 1;
   white-space: pre-wrap;
+}
+
+.heart-btn {
+  font-size: 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 </style>

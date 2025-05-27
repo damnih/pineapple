@@ -1,11 +1,11 @@
 <template>
-  <div class="container-fluid px-4 px-md-5 px-xl-6 my-5">
+  <div class="container-fluid my-5">
     <div 
     class="row justify-content-center g-5 fade-in"
     v-if="isVisible"
     >
       <div
-        class="col-12 col-md-6 col-lg-3"
+        class="col-12 col-md-6 col-lg-2"
         v-for="(card, index) in cards"
         :key="index"
       >
@@ -64,13 +64,19 @@ const cards = [
     routeName: "map",
     image: "../../sky-6768714_1280.jpg",
   },
+    {
+    title: "전체 예금 상품 보기",
+    subtitle: "어떤 예금 상품들이 있을까?",
+    routeName: "all-deposit",
+    image: "../../clouds-8485592_1920.jpg",
+  },
 ];
 </script>
 
 <style scoped>
 .rounded-image {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 2;
   border-radius: 1rem;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
