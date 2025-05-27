@@ -1,7 +1,13 @@
 <template>
-  <div class="row mx-auto">
-      <div class="video-container" v-if="searchResults.length">
-      <div class="col-3" v-for="video in searchResults" :key="video.id.videoId">
+  <div class="container py-4">
+    <h2>🎬 관련 유튜브 영상 찾아보기</h2>
+    <br>
+    <div class="row justify-content-center g-4">
+      <div
+        class="col d-flex justify-content-center mb-4"
+        v-for="video in searchResults"
+        :key="video.id.videoId"
+      >
         <VideoCard
           :videoId="video.id.videoId"
           :title="video.snippet.title"
@@ -49,11 +55,11 @@ watch(() => route.query.q, (newQuery) => {
 </script>
 
 <style scoped>
-.video-container {
+/* .video-container {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-around; */
-  gap: 20px;
+  /* gap: 20px;
   padding: 20px;
-}
+} */
 </style>

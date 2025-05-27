@@ -1,4 +1,5 @@
 <template>
+  <Box>
   <div class="profile-view container my-5">
     <h2>프로필 </h2>
     <ul class="list-group">
@@ -7,12 +8,14 @@
       <li class="list-group-item"><strong>국적:</strong> {{ profile.nationality }}</li>
     </ul>
   </div>
+  </Box>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute }       from 'vue-router'
 import axios               from 'axios'
+import Box from '@/components/Box.vue'
 
 const route   = useRoute()
 const username = route.params.username   // URL 파라미터

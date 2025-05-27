@@ -2,7 +2,7 @@
 
 <template>
   <ArticleBox>
-    <RouterLink :to="{ name: 'article' }" class="btn btn-primary">뒤로 가기</RouterLink>
+    <RouterLink :to="{ name: 'article' }" class="btn btn-sm btn-primary">뒤로 가기</RouterLink>
     <br><br>
 
     <div v-if="article">
@@ -17,13 +17,15 @@
           삭제
         </button>
       </div>
-      <p>작성자 : {{ article.author.username }} | 작성일 : {{ article.created_at }}</p>
+      <p>작성자 : {{ article.author.username }} | 작성일 : {{ article.created_at.slice(0, 10) }}</p>
       <hr>
       {{ article.content }}
+      <br><br><br><br><br>
     </div>
 
     <hr>
     <h5>댓글</h5>
+    <br>
     <CommentList :comments="comments" @deleted="fetchComments" />
     <CommentForm :onSuccess="fetchComments" />
   </ArticleBox>
