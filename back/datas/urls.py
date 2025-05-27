@@ -1,7 +1,7 @@
 # from django.contrib import admin
 from django.urls import path, include
 from . import views
-from .views import DepositResultAPIView
+from .views import DepositResultAPIView, DepositProductListView
 from .views import exchange_rate
 
 
@@ -17,5 +17,6 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('api/deposit_results/', DepositResultAPIView.as_view()),
     path('exchange-rate/<str:code>/', exchange_rate),
+    path('deposit_results/', DepositProductListView.as_view(), name='deposit-list'),
     path('deposit_results/<int:id>/', views.deposit_result_detail),
 ]

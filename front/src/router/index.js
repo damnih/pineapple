@@ -11,8 +11,8 @@ import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import RecommendView from '@/views/RecommendView.vue'
 import ArticleCreateView from '@/views/ArticleCreateView.vue'
 import ProfileView from '@/views/ProfileView.vue'
-
 import AllDepositDetail from '@/views/AllDepositDetail.vue'
+import AllDepositView from '@/views/AllDepositView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,15 +84,15 @@ const router = createRouter({
       component: ProfileView,
       meta: { requiresAuth: true }
     },
-
-
-
-
-
     {
       path: '/all-deposit-detail/:id',
       name: 'alldepositdetail',
       component: AllDepositDetail,
+    },
+    {
+      path: '/all-deposit',
+      name: 'all-deposit',
+      component: AllDepositView,
     },
   ],
 })
