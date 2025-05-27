@@ -104,6 +104,8 @@ onMounted(() => {
 
 
 <style scoped>
+
+
 .main-navbar {
   display: flex;
   justify-content: left;

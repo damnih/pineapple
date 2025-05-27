@@ -28,7 +28,7 @@
     <br>
     <CommentList :comments="comments" @deleted="fetchComments" />
     <CommentForm :onSuccess="fetchComments" />
->>>>>>> 5a65c9ff381cd715da4008e41fe2315fa6d52f9c
+
   </ArticleBox>
 </template>
 
