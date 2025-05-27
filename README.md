@@ -1,6 +1,6 @@
 >  삼성 청년 소프트웨어/AI 아카데미 13기 1학기 관통 프로젝트
 
-![메인페이지.png](C:\Users\김유리\Desktop\pineapple\메인페이지.png)
+![메인페이지.png](https://github.com/damnih/pineapple/blob/master/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png)
 
 ---
 
@@ -152,11 +152,11 @@
 
 로직 작성 및 페이지 디자인에 활용
 
-![카드 레이아웃 구현 프롬프트.png](C:\Users\김유리\Desktop\pineapple\카드%20레이아웃%20구현%20프롬프트.png)
+![카드 레이아웃 구현 프롬프트.png](https://github.com/damnih/pineapple/blob/master/%EC%B9%B4%EB%93%9C%20%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83%20%EA%B5%AC%ED%98%84%20%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8.png)
 
 [ChatGPT - Vue3 카드 레이아웃 구현](https://chatgpt.com/share/6835c8d1-e9b0-8001-84ee-1b8efa4d2ff6)
 
-![작성자 이름 표시 수정 프롬프트.png](C:\Users\김유리\Desktop\pineapple\작성자%20이름%20표시%20수정%20프롬프트.png)
+![작성자 이름 표시 수정 프롬프트.png](https://github.com/damnih/pineapple/blob/master/%EC%9E%91%EC%84%B1%EC%9E%90%20%EC%9D%B4%EB%A6%84%20%ED%91%9C%EC%8B%9C%20%EC%88%98%EC%A0%95%20%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8.png)
 
 [ChatGPT - 작성자 이름 표시 수정](https://chatgpt.com/share/6835c905-fa98-8001-87a9-38bedbf62125)
 
@@ -166,25 +166,25 @@
 
 - 금융 상품 추천
 
-![금융상품추천설문.png](C:\Users\김유리\Desktop\pineapple\금융상품추천설문.png)
+![금융상품추천설문.png](https://github.com/damnih/pineapple/blob/master/%EA%B8%88%EC%9C%B5%EC%83%81%ED%92%88%EC%B6%94%EC%B2%9C%EC%84%A4%EB%AC%B8.png)
 
-![금융상품추천.png](C:\Users\김유리\Desktop\pineapple\금융상품추천.png)
+![금융상품추천.png](https://github.com/damnih/pineapple/blob/master/%EA%B8%88%EC%9C%B5%EC%83%81%ED%92%88%EC%B6%94%EC%B2%9C.png)
 
     설문을 토대로 금융 상품을 추천
 
 - 환율 조회
 
-![환율조회.png](C:\Users\김유리\Desktop\pineapple\환율조회.png)
+![환율조회.png](https://github.com/damnih/pineapple/blob/master/%ED%99%98%EC%9C%A8%EC%A1%B0%ED%9A%8C.png)
 
     한 달 간의 환율 변화 추이 제공
 
 - 예금 상품 조회
 
-![정기예금리스트.png](C:\Users\김유리\Desktop\pineapple\정기예금리스트.png)
+![정기예금리스트.png](https://github.com/damnih/pineapple/blob/master/%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%EB%A6%AC%EC%8A%A4%ED%8A%B8.png)
 
-![정기예금상세-좋아요.png](C:\Users\김유리\Desktop\pineapple\정기예금상세-좋아요.png)
+![정기예금상세-좋아요.png](https://github.com/damnih/pineapple/blob/master/%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%EC%83%81%EC%84%B8-%EC%A2%8B%EC%95%84%EC%9A%94.png)
 
-![프로필-좋아요확인.png](C:\Users\김유리\Desktop\pineapple\프로필-좋아요확인.png)
+![프로필-좋아요확인.png](https://github.com/damnih/pineapple/blob/master/%ED%94%84%EB%A1%9C%ED%95%84-%EC%A2%8B%EC%95%84%EC%9A%94%ED%99%95%EC%9D%B8.png)
 
     전체 예금 상품 조회
 
