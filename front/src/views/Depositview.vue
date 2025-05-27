@@ -6,10 +6,12 @@
       </h4>
     </div>
 
-    <div v-if="depositList && depositList.length > 0">
+    <div v-if="depositList && depositList.length > 0" class="row justify-content-center">
+      <div class="col-12 col-md-6 d-flex align-items-stretch mb-4" 
+      v-for="(item, index) in depositList" 
+      :key="index"
+      >
       <DepositItem
-        v-for="(item, index) in depositList"
-        :key="index"
         :product_name="item.product_name"
         :kor_co_nm="item.kor_co_nm"
         :maturity_amount="item.maturity_amount"
@@ -20,6 +22,7 @@
         :spcl_cnd="item.spcl_cnd"
         :etc_note="item.etc_note"
       />
+      </div>
     </div>
     <div v-else class="text-center text-muted">추천 가능한 상품이 없습니다.</div>
   </div>

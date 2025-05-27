@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded-4 p-4 mb-5" style="max-width: 700px; margin: auto; font-family: sans-serif;">
+  <div class="border rounded-4 p-4 h-100 d-flex flex-column w-100" style="font-family: sans-serif;">
     <!-- 상품명 -->
     <h3 class="text-center fw-bold mb-3">{{ product_name }}</h3>
     <hr />

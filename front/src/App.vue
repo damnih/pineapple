@@ -32,7 +32,11 @@
         href="#"
         @click.prevent="accountStore.logOut()"
       >LOGOUT</a>
-      
+
+    <!-- 로그인 완료 시 누구님! 보이게 해주는 것  -->
+    <!-- 디버그: 토큰과 user 객체를 찍어 봅니다 -->
+    <p v-if="isLoggedIn" style="margin-top: 20px;">{{ userName }} 님 안녕하세요!</p>
+
       
       <!-- <RouterLink class="nav-link" :to="{ name: 'signup' }">SIGNUP</RouterLink>
       <RouterLink class="nav-link" :to="{ name: 'login' }">LOGIN</RouterLink> -->
@@ -44,12 +48,8 @@
       </form>
     </nav>
 
-    <!-- 로그인 완료 시 누구님! 보이게 해주는 것  -->
-    <nav v-if="isLoggedIn" > 
+    
 
-    <!-- 디버그: 토큰과 user 객체를 찍어 봅니다 -->
-      {{ userName }} 님 안녕하세요! 
-    </nav>
 
     <!-- 장식용 하단 줄 -->
     <div class="decorative-bar">
@@ -59,6 +59,8 @@
       <div class="bar blue flex-grow"></div>
     </div>
   </div>
+
+  <br><br>
 
   <RouterView />
 </template>
