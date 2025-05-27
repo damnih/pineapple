@@ -45,7 +45,7 @@
     </nav>
 
     <!-- 로그인 완료 시 누구님! 보이게 해주는 것  -->
-    <nav v-if="isLoggedIn"> 
+    <nav v-if="isLoggedIn" > 
 
     <!-- 디버그: 토큰과 user 객체를 찍어 봅니다 -->
       {{ userName }} 님 안녕하세요! 
