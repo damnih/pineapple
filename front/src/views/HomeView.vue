@@ -1,79 +1,96 @@
 <template>
-  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <!-- 인디케이터 -->
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-    </div>
-
-    <!-- 이미지들 -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <RouterLink :to="{ name: 'recommend' }">
-        <img src="../../the-moon-2117086_1920.jpg" class="d-block w-50 mx-auto" alt="airplane">
-      </RouterLink>
-      <div class="carousel-caption d-none d-md-block text-center">
-        <h4>여행 예산 모으기</h4>
-        <p>내가 여행을 가기 전까지 얼마나 모을 수 있을까?</p>
+  <div class="container-fluid px-4 px-md-5 px-xl-6 my-5">
+    <div 
+    class="row justify-content-center g-5 fade-in"
+    v-if="isVisible"
+    >
+      <div
+        class="col-12 col-md-6 col-lg-3"
+        v-for="(card, index) in cards"
+        :key="index"
+      >
+        <RouterLink :to="{ name: card.routeName }" class="text-decoration-none text-dark">
+          <div class="d-flex flex-column align-items-start">
+            <img
+              :src="card.image"
+              alt="카드 이미지"
+              class="rounded-image mb-3"
+            />
+            <div class="w-100 text-start px-1">
+              <h5 class="fw-bold">{{ card.title }}</h5>
+              <p class="text-muted small">{{ card.subtitle }}</p>
+            </div>
+          </div>
+        </RouterLink>
       </div>
     </div>
-
-    <div class="carousel-item">
-      <RouterLink :to="{ name: 'article' }">
-        <img src="../../merry-christmas-5219496_1280.jpg" class="d-block w-50 mx-auto" alt="boardingticket">
-      </RouterLink>
-      <div class="carousel-caption d-none d-md-block text-center">
-        <h4>커뮤니티</h4>
-        <p>여행을 가고 싶은데 예산은 어떻게 잡아야 할까?</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <RouterLink :to="{ name: 'exchangerate' }">
-        <img src="../../wing-221525_1920.jpg" class="d-block w-50 mx-auto" alt="sky">
-      </RouterLink>
-      <div class="carousel-caption d-none d-md-block text-center">
-        <h4>환율 계산</h4>
-        <p>여행 가는 곳의 환율은 어떨까?</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <RouterLink :to="{ name: 'map' }">
-        <img src="../../sky-6768714_1280.jpg" class="d-block w-50 mx-auto" alt="wing">
-      </RouterLink>
-      <div class="carousel-caption d-none d-md-block text-center">
-        <h5>주변 은행 찾기</h5>
-        <p>환전을 할 은행의 위치는 어디일까?</p>
-      </div>
-    </div>
-  </div>
-
-    <!-- 좌우 버튼 -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon custom-arrow" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon custom-arrow" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const isVisible = ref(false)
+
+onMounted(() => {
+  // 약간의 지연 후 표시 (애니메이션 자연스럽게)
+  setTimeout(() => {
+    isVisible.value = true
+  }, 100)
+})
+
+const cards = [
+  {
+    title: "여행 예산 모으기",
+    subtitle: "여행 가기 전까지 얼마나 모을 수 있을까?",
+    routeName: "recommend",
+    image: "../../the-moon-2117086_1920.jpg", // 서버 이미지 경로
+  },
+  {
+    title: "커뮤니티",
+    subtitle: "여행을 가고 싶은데 예산은 어떻게 잡아야 할까?",
+    routeName: "article",
+    image: "../../merry-christmas-5219496_1280.jpg",
+  },
+  {
+    title: "환율 계산",
+    subtitle: "여행 가는 곳의 환율은 어느 정도일까?",
+    routeName: "exchangerate",
+    image: "../../wing-221525_1920.jpg",
+  },
+  {
+    title: "주변 은행 찾기",
+    subtitle: "환전할 수 있는 은행은 어디에 있을까?",
+    routeName: "map",
+    image: "../../sky-6768714_1280.jpg",
+  },
+];
 </script>
 
-<style>
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: black;
-  border-radius: 50%;
-  background-size: 70% 70%;
-  background-position: center;
-  background-repeat: no-repeat;
+<style scoped>
+.rounded-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 페이드 인 효과 */
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* 부드러운 위쪽 등장 효과 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
