@@ -9,12 +9,15 @@ class DepositOptionsSerializer(serializers.ModelSerializer):
 
 class DepositProductsSerializer(serializers.ModelSerializer):
     options = DepositOptionsSerializer(many=True, read_only=True)
+    is_liked  = serializers.SerializerMethodField()
     class Meta:
         model = DepositProducts
         fields = '__all__'
 
     def get_is_liked(self, obj):
-        user = self.context['request'].user
+        request = self.context.get('request', None)
+        # user = self.context['request'].user
+        user    = getattr(request, 'user', None)
         if not user or not user.is_authenticated:
             return False
         return obj.likes.filter(pk=user.pk).exists()
@@ -37,3 +40,26 @@ class DepositResultSerializer(serializers.ModelSerializer):
             'spcl_cnd', 'etc_note',
         ]
 
+# 하위 금리 정보를 위한 Serializer
+class DepositOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DepositOptions
+        fields = ['id', 'intr_rate_type_nm', 'intr_rate', 'intr_rate2', 'save_trm']
+
+
+# 상위 상품 정보를 위한 Serializer + 금리 포함
+class DepositProductsListSerializer(serializers.ModelSerializer):
+    options = DepositOptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = DepositProducts
+        fields = [
+            'id',
+            'kor_co_nm',
+            'fin_prdt_nm',
+            'etc_note',
+            'join_member',
+            'join_way',
+            'spcl_cnd',
+            'options',  # ← 여기 금리 목록 포함됨
+        ]
