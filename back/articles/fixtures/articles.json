@@ -1,0 +1,90 @@
+[
+{
+    "model": "articles.article",
+    "pk": 4,
+    "fields": {
+        "title": "미국 여행 준비 중인데 예산 봐주실분???",
+        "content": "친구와 둘이서 4박 5일 자유여행 생각 중입니다. \n보니깐 볼 거리가 되게 많다던데, 그 중에서도 메트로폴리탄 미술관은 꼭 가고 싶습니다. \n지금까지 인당 200정도 모았는데, 충분할까요?",
+        "author": 2,
+        "created_at": "2025-05-27T00:54:54.396Z",
+        "updated_at": "2025-05-27T00:54:54.396Z"
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 5,
+    "fields": {
+        "title": "삿포로 눈축제 가고싶은데...",
+        "content": "눈축제 시즌에 삿포로 비행기가 엄청 비싸다면서요? 항공권 요금이라도 싸게 할 수 있으면 좋을 것 같은데 좋은 방도 있을까요?ㅜㅜ",
+        "author": 1,
+        "created_at": "2025-05-27T01:09:44.384Z",
+        "updated_at": "2025-05-27T01:09:44.384Z"
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 6,
+    "fields": {
+        "title": "프랑스 한달살기",
+        "content": "프랑스 한달살기를 해보려고 합니다. 숙소는 에어비앤비에서 고르려고 하고, 숙박비와 항공권 제외 300정도 생각하고 있습니다. 생활비로 충분할까요? 조금 더 넉넉하게 준비하는 게 좋을까요?",
+        "author": 3,
+        "created_at": "2025-05-27T01:26:59.291Z",
+        "updated_at": "2025-05-27T01:26:59.291Z"
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 7,
+    "fields": {
+        "title": "중국 청도 여행 금액이요",
+        "content": "비성수기 기준 패키지 가격이 2~30 정도던데 자유여행으로 가면 이것보다 가성비 괜찮나요?",
+        "author": 8,
+        "created_at": "2025-05-27T01:38:13.392Z",
+        "updated_at": "2025-05-27T01:38:13.392Z"
+    }
+},
+{
+    "model": "articles.comment",
+    "pk": 2,
+    "fields": {
+        "article": 4,
+        "content": "요즘 환율이 비싸서.. 조금 더 넉넉하게 잡으시는 게 어떨까 싶어요. 250은 잡아야 하지 않을까요?",
+        "comment_author": 1,
+        "created_at": "2025-05-27T01:04:39.078Z",
+        "updated_at": "2025-05-27T01:04:39.078Z"
+    }
+},
+{
+    "model": "articles.comment",
+    "pk": 3,
+    "fields": {
+        "article": 5,
+        "content": "항공권 할인되거나 포백해주는 카드들 많아여 한번 찾아보셈 ㄱㄱ",
+        "comment_author": 8,
+        "created_at": "2025-05-27T01:38:57.917Z",
+        "updated_at": "2025-05-27T01:38:57.917Z"
+    }
+},
+{
+    "model": "articles.comment",
+    "pk": 4,
+    "fields": {
+        "article": 5,
+        "content": "비행기표는 빠르면 빠를수록 쌈 지금 고민할시간에 사라",
+        "comment_author": 10,
+        "created_at": "2025-05-27T01:42:50.804Z",
+        "updated_at": "2025-05-27T01:42:50.804Z"
+    }
+},
+{
+    "model": "articles.comment",
+    "pk": 5,
+    "fields": {
+        "article": 6,
+        "content": "언제 가실 생각인데요? 돈 더 모아뒀다가 가는 게 좋을거같은데..",
+        "comment_author": 10,
+        "created_at": "2025-05-27T01:43:55.076Z",
+        "updated_at": "2025-05-27T01:43:55.076Z"
+    }
+}
+]
