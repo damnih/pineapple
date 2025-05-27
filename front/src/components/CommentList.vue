@@ -7,6 +7,7 @@
     :key="index" 
     :comment="comment"
     class="mb-3"
+    @deleted="$emit('deleted')"
     />
   </div>
   <div v-else>
@@ -20,6 +21,8 @@ import CommentListItem from "@/components/CommentListItem.vue"
 defineProps({
   comments: Array
 })
+
+defineEmits(['deleted'])
 </script>
 
 <style scoped></style>

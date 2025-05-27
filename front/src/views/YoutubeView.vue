@@ -14,7 +14,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import VideoCard from '@/components/VideoCard.vue'
+import VideoCard from '@/components/Videocard.vue'
 
 const route = useRoute()
 

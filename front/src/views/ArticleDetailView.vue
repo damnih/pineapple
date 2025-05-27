@@ -24,7 +24,7 @@
 
     <hr>
     <h5>댓글</h5>
-    <CommentList :comments="comments" @refresh="fetchComments" />
+    <CommentList :comments="comments" @deleted="fetchComments" />
     <CommentForm :onSuccess="fetchComments" />
   </ArticleBox>
 </template>
